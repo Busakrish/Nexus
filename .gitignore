@@ -1,0 +1,24 @@
+# Gradle
+.gradle/
+build/
+out/
+
+# IntelliJ - ignore the ENTIRE folder
+.idea/
+
+# Java compiled files
+*.class
+
+# Database file - contains personal data
+*.db
+
+# Mac system file
+.DS_Store
+
+# Kotlin
+.kotlin/
+
+# Keep gradle wrapper (needed to build)
+!gradle/wrapper/gradle-wrapper.jar
+
+*.iml
