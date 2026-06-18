@@ -1,10 +1,15 @@
 plugins {
     id("java")
+    id("application")
     id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 group = "com.nexus"
 version = "1.0"
+
+application {
+    mainClass.set("com.nexus.nexus.Main")
+}
 
 repositories {
     mavenCentral()
@@ -21,6 +26,7 @@ dependencies {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(23))
+    }
 }
