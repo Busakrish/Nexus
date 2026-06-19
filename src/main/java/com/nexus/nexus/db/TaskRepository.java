@@ -76,4 +76,50 @@ public class TaskRepository {
 
         return tasks;
     }
+
+    public static void update(Task task) {
+        String sql = """
+            UPDATE tasks SET 
+                title = ?, subject = ?, notes = ?, 
+                estimated_pomodoros = ?, completed_pomodoros = ?, 
+                deadline = ?, priority = ?, status = ?
+            WHERE id = ?
+            """;
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, task.getTitle());
+            pstmt.setString(2, task.getSubject());
+            pstmt.setString(3, task.getNotes());
+            pstmt.setInt(4, task.getEstimatedPomodoros());
+            pstmt.setInt(5, task.getCompletedPomodoros());
+            pstmt.setString(6, task.getDeadline() != null ?
+                    task.getDeadline().toString() : null);
+            pstmt.setString(7, task.getPriority().name());
+            pstmt.setString(8, task.getStatus().name());
+            pstmt.setLong(9, task.getId());
+
+            int rowsChanged = pstmt.executeUpdate();
+            System.out.println("Rows updated: " + rowsChanged);
+
+        } catch (SQLException e) {
+            System.out.println("Error updating task: " + e.getMessage());
+        }
+    }
+
+    public static void delete(long id) {
+        String sql = "DELETE FROM tasks WHERE id = ?";
+
+        try (Connection conn = DatabaseManager.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setLong(1, id);
+            int rowsChanged = pstmt.executeUpdate();
+            System.out.println("Rows deleted: " + rowsChanged);
+
+        } catch (SQLException e) {
+            System.out.println("Error deleting task: " + e.getMessage());
+        }
+    }
 }
