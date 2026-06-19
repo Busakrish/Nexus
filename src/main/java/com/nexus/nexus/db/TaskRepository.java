@@ -42,4 +42,38 @@ public class TaskRepository {
             System.out.println("Error saving task: " + e.getMessage());
         }
     }
+    public static List<Task> getAll(){
+        List<Task> tasks = new ArrayList<>();
+        String sql = "SELECT * FROM tasks";
+
+        try(Connection conn = DatabaseManager.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)){
+
+            while(rs.next()){
+                Task task = new Task(rs.getString("title"),rs.getString("subject"),Task.Priority.valueOf(rs.getString("priority")));
+
+                task.setId(rs.getLong("id"));
+                task.setNotes(rs.getString("notes"));
+                task.setEstimatedPomodoros(rs.getInt("estimated_pomodoros"));
+                task.setCompletedPomodoros(rs.getInt("completed_pomodoros"));
+                task.setStatus(Task.Status.valueOf(rs.getString("status")));
+
+                String deadlineStr = rs.getString("deadline");
+                if (deadlineStr != null) {
+                    task.setDeadline(LocalDateTime.parse(deadlineStr));
+                }
+
+                task.setCreatedAt(LocalDateTime.parse(rs.getString("created_at")));
+
+                tasks.add(task);
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println("Error reading task:" + e.getMessage());
+        }
+
+        return tasks;
+    }
 }
