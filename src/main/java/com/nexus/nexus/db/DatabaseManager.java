@@ -11,7 +11,7 @@ public class DatabaseManager {
     }
 
     public static void createTables() {
-        String sql = """
+        String taskSql = """
             CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT NOT NULL,
@@ -26,9 +26,19 @@ public class DatabaseManager {
             )
             """;
 
+        String subjectSql = """
+            CREATE TABLE IF NOT EXISTS subjects (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT NOT NULL,
+                color_hex TEXT
+            )
+            """;
+
+
         try (Connection conn = connect();
              Statement stmt = conn.createStatement()) {
-            stmt.execute(sql);
+            stmt.execute(taskSql);
+            stmt.execute(subjectSql);
             System.out.println("Database ready!");
         } catch (SQLException e) {
             System.out.println("Error creating tables: " + e.getMessage());
