@@ -1,23 +1,19 @@
 package com.nexus.nexus;
 
 import com.nexus.nexus.db.DatabaseManager;
-import com.nexus.nexus.db.SubjectRepository;
-import com.nexus.nexus.model.Subject;
-import java.util.List;
+import com.nexus.nexus.view.LoginView;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
-public class Main {
-    public static void main(String[] args) {
+public class Main extends Application {
+
+    @Override
+    public void start(Stage stage) {
         DatabaseManager.createTables();
+        new LoginView(stage).show();
+    }
 
-        Subject math = new Subject("Mathematics", "#007AFF");
-        Subject physics = new Subject("Physics", "#FF9500");
-
-        SubjectRepository.add(math);
-        SubjectRepository.add(physics);
-
-        List<Subject> subjects = SubjectRepository.getAll();
-        for (Subject s : subjects) {
-            System.out.println("id=" + s.getId() + " name=" + s.getName() + " color=" + s.getColorHex());
-        }
+    public static void main(String[] args) {
+        launch(args);
     }
 }
