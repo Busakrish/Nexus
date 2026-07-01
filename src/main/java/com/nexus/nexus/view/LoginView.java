@@ -20,20 +20,23 @@ public class LoginView {
     public void show() {
         // --- Logo box ---
         Label logoLabel = new Label("N");
-        logoLabel.setFont(Font.font(20));
+        logoLabel.setFont(Font.font(24));
         logoLabel.setTextFill(Color.WHITE);
 
         StackPane logoBox = new StackPane(logoLabel);
-        logoBox.setPrefSize(45, 45);
+        logoBox.setPrefSize(52, 52);
+        logoBox.setMaxSize(52, 52);
         logoBox.setStyle(
                 "-fx-background-color: #007AFF;" +
-                        "-fx-background-radius: 12;" +
-                            "-fx-font-weight: bold;"
+                        "-fx-background-radius: 12;"
         );
+
+        HBox logoWrapper = new HBox(logoBox);
+        logoWrapper.setAlignment(Pos.CENTER);
 
         // --- App name ---
         Label appName = new Label("Nexus");
-        appName.setFont(Font.font(20));
+        appName.setFont(Font.font(22));
         appName.setStyle("-fx-font-weight: bold;");
 
         Label appSub = new Label("Your smart study planner");
@@ -106,8 +109,10 @@ public class LoginView {
                         "-fx-border-color: #EEEEEE;" +
                         "-fx-border-width: 1;"
         );
+        VBox.setVgrow(logoBox, Priority.NEVER);
+        card.setFillWidth(false);
         card.getChildren().addAll(
-                logoBox, appName, appSub,
+                logoWrapper, appName, appSub,
                 userLabel, usernameField,
                 passLabel, passwordField,
                 loginBtn, registerBtn
@@ -115,6 +120,7 @@ public class LoginView {
 
         // --- Root layout ---
         StackPane root = new StackPane(card);
+        root.setAlignment(Pos.CENTER);
         root.setStyle("-fx-background-color: #F5F5F7;");
         root.setPadding(new Insets(40));
 
